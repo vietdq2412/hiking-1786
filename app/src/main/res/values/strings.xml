@@ -10,6 +10,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="frag_hike_detail">Detail</string>
     <string name="menu_add_hike">Create hike</string>
     <string name="menu_list_hike">Hikes</string>
 

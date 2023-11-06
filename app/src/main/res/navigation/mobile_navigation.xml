@@ -16,11 +16,28 @@
         android:name="com.example.myapplication.ui.createHike.CreateHikeFragment"
         android:label="@string/menu_add_hike"
         tools:layout="@layout/fragment_create_hike" />
+
     <fragment
         android:id="@+id/nav_list_hike"
         android:name="com.example.myapplication.ui.listHike.ListHikeFragment"
         android:label="@string/menu_list_hike"
-        tools:layout="@layout/fragment_list_hike" />
+        tools:layout="@layout/fragment_list_hike">
+        <action
+            android:id="@+id/action_listHikeFragment_to_hikeDetailFragment"
+            app:destination="@id/frag_hike_detail" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/frag_hike_detail"
+        android:name="com.example.myapplication.ui.listHike.hikeDetail.HikeDetailFragment"
+        android:label="@string/frag_hike_detail"
+        tools:layout="@layout/fragment_hike_detail">
+        <argument
+            android:name="hike"
+            app:argType="com.example.myapplication.entity.Hike" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"

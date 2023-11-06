@@ -16,10 +16,25 @@ import java.util.List;
 public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder> {
 
     private List<Hike> hikes;
+    private OnHikeListener onHikeListener;
+
+    public OnHikeListener getOnHikeListener() {
+        return onHikeListener;
+    }
+
+    public void setOnHikeListener(OnHikeListener onHikeListener) {
+        this.onHikeListener = onHikeListener;
+    }
+
+    public interface OnHikeListener {
+        void onHikeClick(Hike hike);
+    }
 
     public HikeAdapter(List<Hike> hikes) {
         this.hikes = hikes;
     }
+
+
 
     @NonNull
     @Override
@@ -31,6 +46,13 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder
     @Override
     public void onBindViewHolder(@NonNull HikeViewHolder holder, int position) {
         Hike hike = hikes.get(position);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (onHikeListener != null) {
+                onHikeListener.onHikeClick(hike);
+            }
+        });
+
         holder.hikeNameTextView.setText(hike.getName());
         holder.hikeDistanceTextView.setText(String.valueOf(hike.getLengthOfHike()));
         holder.hikeDateTextView.setText(hike.getDate());
@@ -42,7 +64,7 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder
         return hikes.size();
     }
 
-    class HikeViewHolder extends RecyclerView.ViewHolder {
+    class HikeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView hikeNameTextView;
         TextView hikeDistanceTextView;
         TextView hikeDateTextView;
@@ -53,6 +75,17 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder
             hikeDistanceTextView = itemView.findViewById(R.id.hikeDistanceTextView);
             hikeDateTextView = itemView.findViewById(R.id.hikeDateTextView);
             // Initialize other views if needed
+        }
+
+        @Override
+        public void onClick(View view) {
+            System.out.println("75 on click hike adapter");
+            if (onHikeListener != null) {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    onHikeListener.onHikeClick(hikes.get(position));
+                }
+            }
         }
     }
 }

@@ -1,7 +1,12 @@
 package com.example.myapplication.entity;
 
 
-public class Hike {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Hike implements Parcelable {
     private long id;
     private String name;
     private String location;
@@ -11,8 +16,12 @@ public class Hike {
     private String difficultyLevel;      // "Easy", "Moderate", "Hard"
 
     // Default constructor
-    public Hike() {}
-    public Hike(String name) {this.name = name;}
+    public Hike() {
+    }
+
+    public Hike(String name) {
+        this.name = name;
+    }
 
     // Parameterized constructor
     public Hike(long id, String name, String location, String date, boolean parkingAvailability, int lengthOfHike, String difficultyLevel) {
@@ -94,4 +103,42 @@ public class Hike {
                 ", difficultyLevel='" + difficultyLevel + '\'' +
                 '}';
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(name);
+        dest.writeString(location);
+        dest.writeString(date);
+        dest.writeByte((byte) (parkingAvailability ? 1 : 0));
+        dest.writeInt(lengthOfHike);
+        dest.writeString(difficultyLevel);
+    }
+
+    protected Hike(Parcel in) {
+        id = in.readLong();
+        name = in.readString();
+        location = in.readString();
+        date = in.readString();
+        parkingAvailability = in.readByte() != 0;
+        lengthOfHike = in.readInt();
+        difficultyLevel = in.readString();
+    }
+    public static final Creator<Hike> CREATOR = new Creator<Hike>() {
+        @Override
+        public Hike createFromParcel(Parcel in) {
+            return new Hike(in);
+        }
+
+        @Override
+        public Hike[] newArray(int size) {
+            return new Hike[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
 }
