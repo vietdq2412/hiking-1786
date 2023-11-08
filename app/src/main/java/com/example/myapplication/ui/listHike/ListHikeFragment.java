@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -20,11 +19,10 @@ import com.example.myapplication.adapter.HikeAdapter;
 import com.example.myapplication.databinding.FragmentListHikeBinding;
 import com.example.myapplication.entity.Hike;
 import com.example.myapplication.repo.HikeDAO;
-import com.example.myapplication.ui.listHike.hikeDetail.HikeDetailFragment;
 
 import java.util.List;
 
-public class ListHikeFragment extends Fragment implements HikeAdapter.OnHikeListener{
+public class ListHikeFragment extends Fragment implements HikeAdapter.OnHikeListener {
     private HikeDAO hikeDAO;
     private FragmentListHikeBinding binding;
     private RecyclerView hikeRecyclerView;
@@ -42,18 +40,19 @@ public class ListHikeFragment extends Fragment implements HikeAdapter.OnHikeList
         final TextView textView = binding.textListHike;
         listHikeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        hikes = hikeDAO.hikes;
-        hikes.add(new Hike("sd"));
+        hikes = hikeDAO.getAllHikes();
 
-        System.out.println("log hike list h frag : "+ hikeDAO.hikes.size());
-        System.out.println(hikeDAO.hikes);
+        System.out.println("57 đ: " + hikeDAO.getAllHikes().size());
+        System.out.println(hikeDAO.getAllHikes());
 
-        HikeAdapter hikeAdapter = new HikeAdapter(hikeDAO.hikes);
+        HikeAdapter hikeAdapter = new HikeAdapter(hikes);
         hikeAdapter.setOnHikeListener(this);
         hikeRecyclerView.setAdapter(hikeAdapter);
         hikeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        hikeDAO.close();
         return root;
     }
+
     @Override
     public void onHikeClick(Hike hike) {
         displayHikeDetails(hike);

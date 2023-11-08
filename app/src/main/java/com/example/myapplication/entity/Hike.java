@@ -11,11 +11,11 @@ public class Hike implements Parcelable {
     private String name;
     private String location;
     private String date;
-    private boolean parkingAvailability;  // I'm using String, but this could be a boolean if you just want to specify yes/no
-    private int lengthOfHike;         // Assuming this is a string like "5 miles" but could be a float or double
+    private boolean parkingAvailability;
+    private int lengthOfHike;
+    private String description;
     private String difficultyLevel;      // "Easy", "Moderate", "Hard"
 
-    // Default constructor
     public Hike() {
     }
 
@@ -23,18 +23,17 @@ public class Hike implements Parcelable {
         this.name = name;
     }
 
-    // Parameterized constructor
-    public Hike(long id, String name, String location, String date, boolean parkingAvailability, int lengthOfHike, String difficultyLevel) {
+    public Hike(long id, String name, String location, String date, boolean parkingAvailability, int lengthOfHike, String difficultyLevel, String description) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.date = date;
         this.parkingAvailability = parkingAvailability;
         this.lengthOfHike = lengthOfHike;
+        this.description = description;
         this.difficultyLevel = difficultyLevel;
     }
 
-    // Getters and Setters
     public long getId() {
         return id;
     }
@@ -91,6 +90,18 @@ public class Hike implements Parcelable {
         this.difficultyLevel = difficultyLevel;
     }
 
+    public boolean isParkingAvailability() {
+        return parkingAvailability;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Hike{" +
@@ -100,6 +111,7 @@ public class Hike implements Parcelable {
                 ", date='" + date + '\'' +
                 ", parkingAvailability=" + parkingAvailability +
                 ", lengthOfHike=" + lengthOfHike +
+                ", description ='" + description + '\'' +
                 ", difficultyLevel='" + difficultyLevel + '\'' +
                 '}';
     }
@@ -113,6 +125,7 @@ public class Hike implements Parcelable {
         dest.writeByte((byte) (parkingAvailability ? 1 : 0));
         dest.writeInt(lengthOfHike);
         dest.writeString(difficultyLevel);
+        dest.writeString(description);
     }
 
     protected Hike(Parcel in) {
@@ -122,8 +135,10 @@ public class Hike implements Parcelable {
         date = in.readString();
         parkingAvailability = in.readByte() != 0;
         lengthOfHike = in.readInt();
+        description = in.readString();
         difficultyLevel = in.readString();
     }
+
     public static final Creator<Hike> CREATOR = new Creator<Hike>() {
         @Override
         public Hike createFromParcel(Parcel in) {

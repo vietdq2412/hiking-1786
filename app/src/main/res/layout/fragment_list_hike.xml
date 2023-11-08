@@ -20,16 +20,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <FrameLayout
-        android:id="@+id/nested_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hike_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp" />
-    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

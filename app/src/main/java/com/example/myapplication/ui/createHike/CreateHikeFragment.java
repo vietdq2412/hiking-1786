@@ -100,15 +100,11 @@ public class CreateHikeFragment extends Fragment {
 
                 Log.d(TAG, hike.toString());
 
+                hikeDAO.addHike(hike);
                 hikeDAO.hikes.add(hike);
                 System.out.println("113 create hike :"+ hikeDAO.hikes.size());
                 System.out.println(hikeDAO.hikes);
-//                HikeDAO hikeDAO = new HikeDAO(this);
-//                hikeDAO.open();
-//                hikeDAO.addHike(hike);
-//                hikeDAO.close();
-//                Toast.makeText(this, "Submitted!", Toast.LENGTH_SHORT).show();
-//                finish();
+                hikeDAO.close();
             }
         });
     }

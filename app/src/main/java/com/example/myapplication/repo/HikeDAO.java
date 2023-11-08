@@ -23,6 +23,7 @@ public class HikeDAO {
 
     private HikeDAO(Context context) {
         dbHelper = new HikeDatabaseHelper(context);
+        database = dbHelper.getWritableDatabase();
     }
 
     // Public method to provide access to the singleton instance
