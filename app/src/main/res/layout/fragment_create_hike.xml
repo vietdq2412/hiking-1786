@@ -42,22 +42,36 @@
 
         <!-- After the location EditText -->
 
-        <EditText
-            android:id="@+id/dateEditText"
+        <TextView
+            android:id="@+id/parkingAvailabilityLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:hint="Date (Required)"
-            android:inputType="date"
-            android:minHeight="48dp" />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:text="Parking Availability (Required)"
+            android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/parkingAvailabilityEditText"
+        <RadioGroup
+            android:id="@+id/parkingAvailabilityRadioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:hint="Parking Availability (Required)"
-            android:minHeight="48dp" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/parkingAvailableRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="True" />
+
+            <RadioButton
+                android:id="@+id/parkingNotAvailableRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="False" />
+        </RadioGroup>
 
         <EditText
             android:id="@+id/lengthOfHikeEditText"
@@ -90,6 +104,17 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:hint="Description (Optional)"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/dateEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:clickable="true"
+            android:drawableEnd="@android:drawable/ic_menu_today"
+            android:focusable="false"
+            android:hint="Date (Required)"
             android:minHeight="48dp" />
 
         <Spinner

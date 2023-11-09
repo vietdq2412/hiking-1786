@@ -20,6 +20,16 @@ public class HikeDAO {
     private HikeDatabaseHelper dbHelper;
     public List<Hike> hikes = new ArrayList<>();
 
+    public final String TABLE_HIKES = "hikes";
+
+    public final String COLUMN_ID = "_id";
+    public final String COLUMN_NAME = "name";
+    public final String COLUMN_LOCATION = "location";
+    public final String COLUMN_DATE = "date";
+    public final String COLUMN_PARKING_AVAILABILITY = "parking_availability";
+    public final String COLUMN_LENGTH_OF_HIKE = "length_of_hike";
+    public final String COLUMN_DIFFICULTY_LEVEL = "difficulty_level";
+    public final String COLUMN_DESCRIPTION = "description";
 
     private HikeDAO(Context context) {
         dbHelper = new HikeDatabaseHelper(context);
@@ -44,20 +54,23 @@ public class HikeDAO {
 
     public long addHike(Hike hike) {
         ContentValues values = new ContentValues();
-        values.put(HikeDatabaseHelper.COLUMN_NAME, hike.getName());
-        values.put(HikeDatabaseHelper.COLUMN_LOCATION, hike.getLocation());
-        values.put(HikeDatabaseHelper.COLUMN_DATE, hike.getDate());
+        values.put(COLUMN_NAME, hike.getName());
+        values.put(COLUMN_LOCATION, hike.getLocation());
+        values.put(COLUMN_DATE, hike.getDate());
+        values.put(COLUMN_PARKING_AVAILABILITY, hike.isParkingAvailability() ? 1 : 0); // Convert boolean to integer
+        values.put(COLUMN_LENGTH_OF_HIKE, hike.getLengthOfHike());
+        values.put(COLUMN_DIFFICULTY_LEVEL, hike.getDifficultyLevel());
+        values.put(COLUMN_DESCRIPTION, hike.getDescription());
 
-
-        return database.insert(HikeDatabaseHelper.TABLE_HIKES, null, values);
+        long insertId = database.insert(TABLE_HIKES, null, values);
+        return insertId;
     }
 
     public void updateHike(Hike hike) {
         ContentValues values = new ContentValues();
         values.put(HikeDatabaseHelper.COLUMN_NAME, hike.getName());
 
-        database.update(HikeDatabaseHelper.TABLE_HIKES, values,
-                HikeDatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(hike.getId())});
+        database.update(HikeDatabaseHelper.TABLE_HIKES, values, HikeDatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(hike.getId())});
     }
 
     public void deleteHike(long hikeId) {
@@ -77,7 +90,10 @@ public class HikeDAO {
                 hike.setName(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_NAME)));
                 hike.setLocation(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_LOCATION)));
                 hike.setDate(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_DATE)));
-                // ... retrieve other fields ...
+                hike.setParkingAvailability(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_PARKING_AVAILABILITY))));
+                hike.setLengthOfHike(Integer.parseInt(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_LENGTH_OF_HIKE))));
+                hike.setDifficultyLevel(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_DIFFICULTY_LEVEL)));
+                hike.setDescription(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_DESCRIPTION)));
 
                 hikes.add(hike);
             } while (cursor.moveToNext());

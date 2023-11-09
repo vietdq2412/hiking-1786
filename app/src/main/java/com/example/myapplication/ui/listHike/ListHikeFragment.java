@@ -49,7 +49,6 @@ public class ListHikeFragment extends Fragment implements HikeAdapter.OnHikeList
         hikeAdapter.setOnHikeListener(this);
         hikeRecyclerView.setAdapter(hikeAdapter);
         hikeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        hikeDAO.close();
         return root;
     }
 

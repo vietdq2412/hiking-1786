@@ -22,4 +22,23 @@
         <item>Moderate</item>
         <item>Hard</item>
     </string-array>
+
+
+    <style name="HikeDetailLabel">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Style for the content in the hike detail view -->
+    <style name="HikeDetailContent">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+    </style>
 </resources>

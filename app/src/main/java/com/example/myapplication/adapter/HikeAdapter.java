@@ -56,7 +56,7 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder
         holder.hikeNameTextView.setText(hike.getName());
         holder.hikeDistanceTextView.setText(String.valueOf(hike.getLengthOfHike()));
         holder.hikeDateTextView.setText(hike.getDate());
-        // Bind other properties if needed
+
     }
 
     @Override

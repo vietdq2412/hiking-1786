@@ -57,4 +57,8 @@ public class HikeDetailFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }
