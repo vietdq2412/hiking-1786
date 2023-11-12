@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/frag_hike_detail"
-        android:name="com.example.myapplication.ui.listHike.hikeDetail.HikeDetailFragment"
+        android:name="com.example.myapplication.ui.hikeDetail.HikeDetailFragment"
         android:label="@string/frag_hike_detail"
         tools:layout="@layout/fragment_hike_detail">
         <argument

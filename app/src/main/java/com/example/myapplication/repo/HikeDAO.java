@@ -36,10 +36,9 @@ public class HikeDAO {
         database = dbHelper.getWritableDatabase();
     }
 
-    // Public method to provide access to the singleton instance
     public static synchronized HikeDAO getInstance(Context context) {
         if (instance == null) {
-            instance = new HikeDAO(context.getApplicationContext()); // Use ApplicationContext to avoid memory leaks
+            instance = new HikeDAO(context.getApplicationContext());
         }
         return instance;
     }
@@ -47,12 +46,8 @@ public class HikeDAO {
     public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
     }
-
-    public void close() {
-        dbHelper.close();
-    }
-
     public long addHike(Hike hike) {
+        open();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, hike.getName());
         values.put(COLUMN_LOCATION, hike.getLocation());
@@ -63,34 +58,41 @@ public class HikeDAO {
         values.put(COLUMN_DESCRIPTION, hike.getDescription());
 
         long insertId = database.insert(TABLE_HIKES, null, values);
+        dbHelper.close();
         return insertId;
     }
 
     public void updateHike(Hike hike) {
         ContentValues values = new ContentValues();
+        open();
         values.put(HikeDatabaseHelper.COLUMN_NAME, hike.getName());
-
+        dbHelper.close();
         database.update(HikeDatabaseHelper.TABLE_HIKES, values, HikeDatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(hike.getId())});
     }
 
     public void deleteHike(long hikeId) {
+        open();
         database.delete(HikeDatabaseHelper.TABLE_HIKES, HikeDatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(hikeId)});
+        dbHelper.close();
     }
 
     @SuppressLint("Range")
     public List<Hike> getAllHikes() {
         List<Hike> hikes = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + HikeDatabaseHelper.TABLE_HIKES;
+        open();
         Cursor cursor = database.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
+                boolean parkingAvaibility = cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_PARKING_AVAILABILITY)).equals("1");
+
                 Hike hike = new Hike();
                 hike.setId(cursor.getLong(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_ID)));
                 hike.setName(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_NAME)));
                 hike.setLocation(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_LOCATION)));
                 hike.setDate(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_DATE)));
-                hike.setParkingAvailability(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_PARKING_AVAILABILITY))));
+                hike.setParkingAvailability(parkingAvaibility);
                 hike.setLengthOfHike(Integer.parseInt(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_LENGTH_OF_HIKE))));
                 hike.setDifficultyLevel(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_DIFFICULTY_LEVEL)));
                 hike.setDescription(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_DESCRIPTION)));
@@ -100,11 +102,14 @@ public class HikeDAO {
         }
 
         cursor.close();
+        dbHelper.close();
         return hikes;
     }
 
     public void clearAllHikes() {
+        database = dbHelper.getWritableDatabase();
         database.delete(HikeDatabaseHelper.TABLE_HIKES, null, null);
+        dbHelper.close();
     }
 }
 

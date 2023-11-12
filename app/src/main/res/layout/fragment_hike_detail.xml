@@ -5,31 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.listHike.hikeDetail.HikeDetailFragment">
+    tools:context=".ui.hikeDetail.HikeDetailFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_margin="16dp"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:cardElevation="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/hikeDifficultyLabel"
+            app:layout_constraintTop_toBottomOf="@+id/hikeDifficultyLabel">
 
             <TextView
                 android:id="@+id/textHikeName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:text="Hike name"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -45,6 +41,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textHikeName" />
 
+
             <TextView
                 android:id="@+id/textHikeDate"
                 android:layout_width="wrap_content"
@@ -54,51 +51,103 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
-                android:id="@+id/textHikeLength"
+                android:id="@+id/hikeLengthLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(length)km"
-                app:layout_constraintBaseline_toBaselineOf="@id/textHikeName"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:text="Length:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textHikeLocation" />
+
+            <TextView
+                android:id="@+id/textHikeLength"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Length value"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hikeLengthLabel"
+                app:layout_constraintTop_toTopOf="@id/hikeLengthLabel" />
+
+            <TextView
+                android:id="@+id/parkingAvailabilityLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parking:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hikeLengthLabel" />
 
             <TextView
                 android:id="@+id/textHikeParking"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Parking availability"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/parkingAvailabilityLabel"
+                app:layout_constraintTop_toTopOf="@id/parkingAvailabilityLabel" />
+
+            <TextView
+                android:id="@+id/hikeDifficultyLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level:"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textHikeLocation" />
+                app:layout_constraintTop_toBottomOf="@id/parkingAvailabilityLabel" />
 
             <TextView
                 android:id="@+id/textHikeDifficulty"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="difficulty"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textHikeParking" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hikeDifficultyLabel"
+                app:layout_constraintTop_toTopOf="@id/hikeDifficultyLabel" />
 
             <TextView
                 android:id="@+id/textHikeDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/description_background"
+                android:padding="8dp"
                 android:text="description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textHikeDifficulty" />
 
-            <Button
-                android:id="@+id/buttonAction"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Button"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textHikeDescription"
-                app:layout_constraintBottom_toBottomOf="parent" />
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:layout_constraintTop_toBottomOf="@id/textHikeDescription"
+               android:orientation="horizontal">
 
+               <!-- RecyclerView for Observations -->
+               <androidx.recyclerview.widget.RecyclerView
+                   android:id="@+id/recyclerViewObservations"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="8dp"
+                   app:layout_constraintBottom_toTopOf="@+id/deleteButton"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@id/textHikeDescription" />
+               <Button
+                   android:id="@+id/deleteButton"
+                   android:layout_width="wrap_content"
+                   android:layout_height="48dp"
+                   android:layout_marginStart="28dp"
+                   android:layout_marginTop="4dp"
+                   android:text="Button"
+                   app:layout_constraintStart_toEndOf="@+id/addObservationButton"
+                   app:layout_constraintTop_toBottomOf="@+id/recyclerViewObservations" />
+
+               <Button
+                   android:id="@+id/addObservationButton"
+                   android:layout_width="212dp"
+                   android:layout_height="48dp"
+                   android:layout_marginTop="4dp"
+                   android:text="Add observation"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@+id/recyclerViewObservations" />
+
+           </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.core.widget.NestedScrollView>

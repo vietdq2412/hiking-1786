@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ public class ListHikeFragment extends Fragment implements HikeAdapter.OnHikeList
     private HikeDAO hikeDAO;
     private FragmentListHikeBinding binding;
     private RecyclerView hikeRecyclerView;
+    private Button clearButton;
     private List<Hike> hikes;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,6 +38,7 @@ public class ListHikeFragment extends Fragment implements HikeAdapter.OnHikeList
         binding = FragmentListHikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         hikeRecyclerView = binding.hikeRecyclerView;
+        clearButton = binding.clearButton;
 
         final TextView textView = binding.textListHike;
         listHikeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
@@ -49,6 +52,12 @@ public class ListHikeFragment extends Fragment implements HikeAdapter.OnHikeList
         hikeAdapter.setOnHikeListener(this);
         hikeRecyclerView.setAdapter(hikeAdapter);
         hikeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        clearButton.setOnClickListener(view -> {
+            hikeDAO.clearAllHikes();
+            hikeAdapter.clear();
+        });
+
         return root;
     }
 

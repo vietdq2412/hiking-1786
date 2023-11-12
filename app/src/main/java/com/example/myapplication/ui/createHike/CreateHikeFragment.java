@@ -47,7 +47,7 @@ public class CreateHikeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         hikeDAO = HikeDAO.getInstance(getContext());
-        hikeDAO.open();
+
         binding = FragmentCreateHikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -116,22 +116,20 @@ public class CreateHikeFragment extends Fragment {
 
                 boolean isParkingAvalable = true;
                 int selectedId = parkingRadioGroup.getCheckedRadioButtonId();
-                if (selectedId == R.id.parkingAvailableRadioButton) {
-                    isParkingAvalable = true;
-                } else if (selectedId == R.id.parkingNotAvailableRadioButton) {
+                if (selectedId == R.id.parkingNotAvailableRadioButton) {
                     isParkingAvalable = false;
                 }
 
                 hike.setParkingAvailability(isParkingAvalable);
                 hike.setLengthOfHike(Integer.parseInt(lengthOfHikeEditText.getText().toString()));
                 hike.setDifficultyLevel(difficultyLevelSpinner.getSelectedItem().toString());
+                hike.setDescription(descriptionEditText.getText().toString());
 
                 Log.d(TAG, hike.toString());
 
                 hikeDAO.addHike(hike);
 
                 System.out.println("133 create hike :" + hikeDAO.hikes.size());
-                System.out.println(hikeDAO.hikes);
                 Toast.makeText(getContext(), "Done!", Toast.LENGTH_LONG).show();
             }
         });

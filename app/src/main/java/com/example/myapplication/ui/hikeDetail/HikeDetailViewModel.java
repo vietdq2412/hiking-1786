@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.listHike.hikeDetail;
+package com.example.myapplication.ui.hikeDetail;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

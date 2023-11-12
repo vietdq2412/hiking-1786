@@ -34,8 +34,10 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder
         this.hikes = hikes;
     }
 
-
-
+    public void clear() {
+        hikes.clear();
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public HikeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,7 +66,7 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder
         return hikes.size();
     }
 
-    class HikeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class HikeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView hikeNameTextView;
         TextView hikeDistanceTextView;
         TextView hikeDateTextView;
