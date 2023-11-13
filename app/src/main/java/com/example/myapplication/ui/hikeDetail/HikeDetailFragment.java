@@ -20,24 +20,28 @@ import com.example.myapplication.databinding.FragmentHikeDetailBinding;
 import com.example.myapplication.entity.Hike;
 import com.example.myapplication.entity.Observation;
 import com.example.myapplication.repo.HikeDAO;
+import com.example.myapplication.repo.ObservationDAO;
 import com.example.myapplication.ui.listHike.createObservation.AddObservationDialogFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class HikeDetailFragment extends Fragment {
-    private HikeDetailViewModel mViewModel;
     private FragmentHikeDetailBinding binding;
     private RecyclerView observationRecyclerView;
+    private ObservationAdapter observationAdapter;
     private Button deleteButton, addObservationButton;
     private HikeDAO hikeDAO;
+    private ObservationDAO observationDAO;
     private Hike hike;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         hikeDAO = HikeDAO.getInstance(getContext());
+        observationDAO = ObservationDAO.getInstance(getContext());
 
         if (getArguments() != null && getArguments().containsKey("hike")) {
             hike = getArguments().getParcelable("hike");
@@ -64,14 +68,12 @@ public class HikeDetailFragment extends Fragment {
             // You might want to close the fragment or show an error message
         }
 
-        List<Observation> observations = new ArrayList<>();
-        observations.add(new Observation(1l, "OB1", "comment", new Date(),hike.getId()));
-        observations.add(new Observation(1l, "OB1", "comment", new Date(),hike.getId()));
-        observations.add(new Observation(1l, "OB1", "comment", new Date(),hike.getId()));
-        ObservationAdapter adapter = new ObservationAdapter(observations);
+        List<Observation> observations = observationDAO.getAllObservationsByHikeID(hike.getId());
+
+        observationAdapter = new ObservationAdapter(observations);
 
         observationRecyclerView = binding.recyclerViewObservations;
-        observationRecyclerView.setAdapter(adapter);
+        observationRecyclerView.setAdapter(observationAdapter);
         observationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
@@ -86,13 +88,12 @@ public class HikeDetailFragment extends Fragment {
 
     public void showFormAddObservation(){
         FragmentManager fragmentManager = getFragmentManager();
-        AddObservationDialogFragment dialog = AddObservationDialogFragment.newInstance();
+        AddObservationDialogFragment dialog = AddObservationDialogFragment.newInstance((hike.getId()));
         dialog.show(fragmentManager, "AddObservationDialogFragment");
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(HikeDetailViewModel.class);
         // TODO: Use the ViewModel
     }
 

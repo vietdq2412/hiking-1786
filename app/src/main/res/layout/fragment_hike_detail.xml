@@ -16,7 +16,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="569dp"
             android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/hikeDifficultyLabel"
             app:layout_constraintTop_toBottomOf="@+id/hikeDifficultyLabel">
@@ -112,42 +112,50 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textHikeDifficulty" />
 
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               app:layout_constraintTop_toBottomOf="@id/textHikeDescription"
-               android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/textHikeDescription"
+                tools:layout_editor_absoluteX="16dp">
 
-               <!-- RecyclerView for Observations -->
-               <androidx.recyclerview.widget.RecyclerView
-                   android:id="@+id/recyclerViewObservations"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   app:layout_constraintBottom_toTopOf="@+id/deleteButton"
-                   app:layout_constraintEnd_toEndOf="parent"
-                   app:layout_constraintStart_toStartOf="parent"
-                   app:layout_constraintTop_toBottomOf="@id/textHikeDescription" />
-               <Button
-                   android:id="@+id/deleteButton"
-                   android:layout_width="wrap_content"
-                   android:layout_height="48dp"
-                   android:layout_marginStart="28dp"
-                   android:layout_marginTop="4dp"
-                   android:text="Button"
-                   app:layout_constraintStart_toEndOf="@+id/addObservationButton"
-                   app:layout_constraintTop_toBottomOf="@+id/recyclerViewObservations" />
+                <!-- RecyclerView for Observations -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewObservations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </LinearLayout>
 
-               <Button
-                   android:id="@+id/addObservationButton"
-                   android:layout_width="212dp"
-                   android:layout_height="48dp"
-                   android:layout_marginTop="4dp"
-                   android:text="Add observation"
-                   app:layout_constraintStart_toStartOf="parent"
-                   app:layout_constraintTop_toBottomOf="@+id/recyclerViewObservations" />
+            <Button
+                android:id="@+id/addObservationButton"
+                android:layout_width="212dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="20dp"
+                android:text="Add observation"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                app:layout_constraintVertical_bias="0.157" />
 
-           </LinearLayout>
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="69dp"
+                android:text="Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/addObservationButton"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                app:layout_constraintVertical_bias="0.157" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 </androidx.core.widget.NestedScrollView>

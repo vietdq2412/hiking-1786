@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.entity.Observation;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.ViewHolder> {
@@ -18,16 +19,19 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView observationName;
+        private final TextView observationTime;
         private final TextView observationComment;
 
         public ViewHolder(View view) {
             super(view);
             observationName = view.findViewById(R.id.observation_name);
+            observationTime = view.findViewById(R.id.observation_date);
             observationComment = view.findViewById(R.id.observation_comment);
         }
 
         public void bind(Observation observation) {
             observationName.setText(observation.getName());
+            observationTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(observation.getTime()));
             observationComment.setText(observation.getComment());
         }
     }

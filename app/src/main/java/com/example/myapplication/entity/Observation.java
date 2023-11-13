@@ -1,5 +1,7 @@
 package com.example.myapplication.entity;
 
+import android.widget.EditText;
+
 import java.util.Date;
 
 public class Observation {
@@ -9,7 +11,11 @@ public class Observation {
     private Date time;
     private long hikeId;
 
-    public Observation() {
+    public Observation(String name, String comment, Date time, long hikeId) {
+        this.name = name;
+        this.comment = comment;
+        this.time = time;
+        this.hikeId = hikeId;
     }
 
     public Observation(long id, String name, String comment, Date time, long hikeId) {
@@ -19,6 +25,7 @@ public class Observation {
         this.time = time;
         this.hikeId = hikeId;
     }
+
 
     public long getId() {
         return id;

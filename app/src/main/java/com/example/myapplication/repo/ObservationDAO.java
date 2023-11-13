@@ -44,23 +44,11 @@ public class ObservationDAO {
     public List<Observation> getAllObservations() {
         List<Observation> observations = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] columns = {
-                HikeDatabaseHelper.COLUMN_OBSERVATION_ID,
-                HikeDatabaseHelper.COLUMN_OBSERVATION_NAME,
-                HikeDatabaseHelper.COLUMN_COMMENT,
-                HikeDatabaseHelper.COLUMN_TIME,
-                HikeDatabaseHelper.COLUMN_HIKE_ID
-        };
+        String[] columns = {HikeDatabaseHelper.COLUMN_OBSERVATION_ID, HikeDatabaseHelper.COLUMN_OBSERVATION_NAME, HikeDatabaseHelper.COLUMN_COMMENT, HikeDatabaseHelper.COLUMN_TIME, HikeDatabaseHelper.COLUMN_HIKE_ID};
         Cursor cursor = db.query(HikeDatabaseHelper.TABLE_OBSERVATIONS, columns, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") Observation observation = new Observation(
-                        cursor.getLong(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_OBSERVATION_ID)),
-                        cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_OBSERVATION_NAME)),
-                        cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_COMMENT)),
-                        new Date(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_TIME))),
-                        cursor.getLong(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_HIKE_ID))
-                );
+                @SuppressLint("Range") Observation observation = new Observation(cursor.getLong(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_OBSERVATION_ID)), cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_OBSERVATION_NAME)), cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_COMMENT)), new Date(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_TIME))), cursor.getLong(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_HIKE_ID)));
                 observations.add(observation);
             } while (cursor.moveToNext());
         }
@@ -73,31 +61,13 @@ public class ObservationDAO {
         List<Observation> observations = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // Define a selection criteria
         String selection = HikeDatabaseHelper.COLUMN_HIKE_ID + " = ?";
-        String[] selectionArgs = { String.valueOf(hikeId) };
+        String[] selectionArgs = {String.valueOf(hikeId)};
 
-        // Columns to retrieve
-        String[] columns = {
-                HikeDatabaseHelper.COLUMN_OBSERVATION_ID,
-                HikeDatabaseHelper.COLUMN_OBSERVATION_NAME,
-                HikeDatabaseHelper.COLUMN_COMMENT,
-                HikeDatabaseHelper.COLUMN_TIME,
-                HikeDatabaseHelper.COLUMN_HIKE_ID
-        };
+        String[] columns = {HikeDatabaseHelper.COLUMN_OBSERVATION_ID, HikeDatabaseHelper.COLUMN_OBSERVATION_NAME, HikeDatabaseHelper.COLUMN_COMMENT, HikeDatabaseHelper.COLUMN_TIME, HikeDatabaseHelper.COLUMN_HIKE_ID};
 
-        // Query the database
-        Cursor cursor = db.query(
-                HikeDatabaseHelper.TABLE_OBSERVATIONS,
-                columns,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
+        Cursor cursor = db.query(HikeDatabaseHelper.TABLE_OBSERVATIONS, columns, selection, selectionArgs, null, null, null);
 
-        // Iterate over the cursor and populate the list of observations
         if (cursor.moveToFirst()) {
             do {
                 long id = cursor.getLong(cursor.getColumnIndexOrThrow(HikeDatabaseHelper.COLUMN_OBSERVATION_ID));
@@ -118,6 +88,7 @@ public class ObservationDAO {
 
         return observations;
     }
+
     public void deleteObservation(long id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.delete(HikeDatabaseHelper.TABLE_OBSERVATIONS, HikeDatabaseHelper.COLUMN_OBSERVATION_ID + " = ?", new String[]{String.valueOf(id)});

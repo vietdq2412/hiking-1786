@@ -1,37 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
-    app:cardCornerRadius="4dp"
-    app:cardElevation="2dp">
+    android:padding="3dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="3dp">
+        android:background="@android:drawable/dialog_holo_light_frame">
 
-        <TextView
-            android:id="@+id/observation_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="2dp" />
+            android:orientation="horizontal"
+            android:padding="3dp">
 
-        <TextView
-            android:id="@+id/observation_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="9sp"
-            android:layout_marginBottom="5dp" />
+            <TextView
+                android:id="@+id/observation_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Observation name"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/observation_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:text="date"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="10dp"
+                tools:ignore="TextSizeCheck" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/observation_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp" />
+            android:text="Comment"
+            android:padding="2dp"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+
+</FrameLayout>
