@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,18 +23,16 @@ import com.example.myapplication.entity.Hike;
 import com.example.myapplication.entity.Observation;
 import com.example.myapplication.repo.HikeDAO;
 import com.example.myapplication.repo.ObservationDAO;
-import com.example.myapplication.ui.listHike.createObservation.AddObservationDialogFragment;
+import com.example.myapplication.ui.hikeDetail.createObservation.AddObservationDialogFragment;
+import com.example.myapplication.ui.hikeDetail.editDialog.EditHikeDialogFragment;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class HikeDetailFragment extends Fragment {
     private FragmentHikeDetailBinding binding;
     private RecyclerView observationRecyclerView;
     private ObservationAdapter observationAdapter;
-    private Button deleteButton, addObservationButton;
+    private Button deleteButton,editButton, addObservationButton;
     private HikeDAO hikeDAO;
     private ObservationDAO observationDAO;
     private Hike hike;
@@ -50,6 +50,7 @@ public class HikeDetailFragment extends Fragment {
         View root = binding.getRoot();
 
         deleteButton = binding.deleteButton;
+        editButton = binding.editButton;
         addObservationButton = binding.addObservationButton;
 
         if (getArguments() != null && getArguments().containsKey("hike")) {
@@ -64,8 +65,7 @@ public class HikeDetailFragment extends Fragment {
                 binding.textHikeDescription.setText(hike.getDescription());
             }
         } else {
-            // Handle the case where no Hike data was passed in
-            // You might want to close the fragment or show an error message
+
         }
 
         List<Observation> observations = observationDAO.getAllObservationsByHikeID(hike.getId());
@@ -76,12 +76,17 @@ public class HikeDetailFragment extends Fragment {
         observationRecyclerView.setAdapter(observationAdapter);
         observationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
         deleteButton.setOnClickListener(view -> {
-            //dosthing
+            hikeDAO.deleteHike(hike.getId());
+            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+            navController.navigate(R.id.nav_list_hike);
+            Toast.makeText(getContext(), "Deleted "+hike.getName(), Toast.LENGTH_LONG).show();
         });
         addObservationButton.setOnClickListener(view -> {
             showFormAddObservation();
+        });
+        editButton.setOnClickListener(view -> {
+            showFormEditHike();
         });
         return root;
     }
@@ -90,6 +95,13 @@ public class HikeDetailFragment extends Fragment {
         FragmentManager fragmentManager = getFragmentManager();
         AddObservationDialogFragment dialog = AddObservationDialogFragment.newInstance((hike.getId()));
         dialog.show(fragmentManager, "AddObservationDialogFragment");
+    }
+
+    public void showFormEditHike(){
+        FragmentManager fragmentManager = getFragmentManager();
+        EditHikeDialogFragment dialog = EditHikeDialogFragment.newInstance((hike.getId()));
+        System.out.println("EditDialogFragment");
+        dialog.show(fragmentManager, "EditDialogFragment");
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

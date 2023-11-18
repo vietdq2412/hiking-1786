@@ -9,7 +9,7 @@ public class CreateHikeViewModel extends ViewModel {
 
     public CreateHikeViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is create hike fragment");
+        mText.setValue("Create Hike");
     }
 
     public LiveData<String> getText() {

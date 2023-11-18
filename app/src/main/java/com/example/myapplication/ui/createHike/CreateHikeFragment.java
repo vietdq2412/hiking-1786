@@ -2,15 +2,8 @@ package com.example.myapplication.ui.createHike;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,12 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentCreateHikeBinding;
@@ -131,6 +130,9 @@ public class CreateHikeFragment extends Fragment {
 
                 System.out.println("133 create hike :" + hikeDAO.hikes.size());
                 Toast.makeText(getContext(), "Done!", Toast.LENGTH_LONG).show();
+
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+                navController.navigate(R.id.nav_list_hike);
             }
         });
     }

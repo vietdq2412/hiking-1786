@@ -102,14 +102,45 @@ public class HikeDAO {
         }
 
         cursor.close();
-        dbHelper.close();
         return hikes;
+    }
+
+    @SuppressLint("Range")
+    public Hike findHikeById(long id) {
+        Hike hike = null;
+        Cursor cursor = null;
+
+        try {
+            String selection = "_id = ?";
+            String[] selectionArgs = { String.valueOf(id) };
+
+            cursor = database.query(TABLE_HIKES, null, selection, selectionArgs, null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                hike = new Hike(
+                        cursor.getLong(cursor.getColumnIndex(COLUMN_ID)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_DATE)),
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_PARKING_AVAILABILITY)) > 0,
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_LENGTH_OF_HIKE)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_DIFFICULTY_LEVEL)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION))
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return hike;
     }
 
     public void clearAllHikes() {
         database = dbHelper.getWritableDatabase();
         database.delete(HikeDatabaseHelper.TABLE_HIKES, null, null);
-        dbHelper.close();
     }
 }
 

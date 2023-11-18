@@ -81,9 +81,7 @@ public class ObservationDAO {
             } while (cursor.moveToNext());
         }
 
-        // Close the cursor to avoid memory leaks
         cursor.close();
-        // Close the database connection
         db.close();
 
         return observations;
