@@ -27,7 +27,8 @@ public class ListHikeFragment extends Fragment implements HikeAdapter.OnHikeList
     private HikeDAO hikeDAO;
     private FragmentListHikeBinding binding;
     private RecyclerView hikeRecyclerView;
-    private Button clearButton;
+    private Button clearButton, searchButton;
+    private TextView searchEditText;
     private List<Hike> hikes;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -39,6 +40,8 @@ public class ListHikeFragment extends Fragment implements HikeAdapter.OnHikeList
         View root = binding.getRoot();
         hikeRecyclerView = binding.hikeRecyclerView;
         clearButton = binding.clearButton;
+        searchButton = binding.searchButton;
+        searchEditText = binding.searchEditText;
 
         final TextView textView = binding.textListHike;
         listHikeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
@@ -56,6 +59,11 @@ public class ListHikeFragment extends Fragment implements HikeAdapter.OnHikeList
         clearButton.setOnClickListener(view -> {
             hikeDAO.clearAllHikes();
             hikeAdapter.clear();
+        });
+
+        searchButton.setOnClickListener(view -> {
+            String searchText = searchEditText.getText().toString();
+            hikeAdapter.update(hikeDAO.getHikesByNameContaining(searchText));
         });
 
         return root;

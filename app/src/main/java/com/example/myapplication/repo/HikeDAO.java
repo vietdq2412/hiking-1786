@@ -120,6 +120,50 @@ public class HikeDAO {
     }
 
     @SuppressLint("Range")
+    public List<Hike> getHikesByNameContaining(String name) {
+        List<Hike> filteredHikes = new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            // Use LIKE query for partial match
+            String selection = COLUMN_NAME + " LIKE ?";
+            String[] selectionArgs = {"%" + name + "%"};
+
+            open();
+            cursor = database.query(TABLE_HIKES, null, selection, selectionArgs, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    boolean parkingAvailability = cursor.getInt(cursor.getColumnIndex(COLUMN_PARKING_AVAILABILITY)) > 0;
+
+                    Hike hike = new Hike();
+                    hike.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
+                    hike.setName(cursor.getString(cursor.getColumnIndex(COLUMN_NAME)));
+                    hike.setLocation(cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION)));
+                    hike.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
+                    hike.setParkingAvailability(parkingAvailability);
+                    hike.setLengthOfHike(cursor.getInt(cursor.getColumnIndex(COLUMN_LENGTH_OF_HIKE)));
+                    hike.setDifficultyLevel(cursor.getString(cursor.getColumnIndex(COLUMN_DIFFICULTY_LEVEL)));
+                    hike.setPeak(cursor.getInt(cursor.getColumnIndex(COLUMN_PEAK_OF_HIKE)));
+                    hike.setDuration(cursor.getInt(cursor.getColumnIndex(COLUMN_DURATION)));
+                    hike.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION)));
+
+                    filteredHikes.add(hike);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return filteredHikes;
+    }
+
+
+    @SuppressLint("Range")
     public Hike findHikeById(long id) {
         Hike hike = null;
         Cursor cursor = null;

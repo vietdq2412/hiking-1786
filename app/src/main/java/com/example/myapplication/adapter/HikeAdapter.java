@@ -38,6 +38,10 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder
         hikes.clear();
         notifyDataSetChanged();
     }
+    public void update(List<Hike> hikes) {
+        this.hikes = hikes;
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public HikeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
