@@ -1,18 +1,24 @@
 package com.example.myapplication.ui.hikeDetail.editDialog;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.ObservationAdapter;
@@ -24,9 +30,11 @@ import com.example.myapplication.repo.ObservationDAO;
 import java.util.Date;
 
 public class EditHikeDialogFragment extends DialogFragment {
-    private Button addButton;
     private static final String ARG_HIKE_ID = "hikeId";
     private EditText nameEditText, locationEditText, lengthOfHikeEditText, estimatedDurationEditText, peakElevationEditText, descriptionEditText, dateEditText;
+    private Button updateButton;
+    private RadioGroup parkingRadioGroup;
+
     private Spinner difficultyLevelSpinner;
     private Hike currentHike;
     private HikeDAO hikeDAO;
@@ -58,6 +66,39 @@ public class EditHikeDialogFragment extends DialogFragment {
         descriptionEditText = dialogView.findViewById(R.id.descriptionEditText);
         dateEditText = dialogView.findViewById(R.id.dateEditText);
         difficultyLevelSpinner = dialogView.findViewById(R.id.difficultyLevelSpinner);
+        parkingRadioGroup = dialogView.findViewById(R.id.parkingAvailabilityRadioGroup);
+
+        updateButton = dialogView.findViewById(R.id.updateButton);
+
+        updateButton.setOnClickListener(v -> {
+
+            this.currentHike.setName(nameEditText.getText().toString());
+            this.currentHike.setLocation(locationEditText.getText().toString());
+            this.currentHike.setDate(dateEditText.getText().toString());
+
+            boolean isParkingAvalable = true;
+            int selectedId = parkingRadioGroup.getCheckedRadioButtonId();
+            if (selectedId == R.id.parkingNotAvailableRadioButton) {
+                isParkingAvalable = false;
+            }
+
+            this.currentHike.setParkingAvailability(isParkingAvalable);
+            this.currentHike.setLengthOfHike(Integer.parseInt(lengthOfHikeEditText.getText().toString()));
+            this.currentHike.setDifficultyLevel(difficultyLevelSpinner.getSelectedItem().toString());
+            this.currentHike.setDescription(descriptionEditText.getText().toString());
+            this.currentHike.setPeak(Integer.parseInt(peakElevationEditText.getText().toString()));
+            this.currentHike.setDuration(Integer.parseInt(estimatedDurationEditText.getText().toString()));
+
+            Log.d(TAG, this.currentHike.toString());
+            System.out.println("===========================================");
+            System.out.println(this.currentHike.toString());
+            hikeDAO.updateHike(this.currentHike);
+
+            Toast.makeText(getContext(), "Done!", Toast.LENGTH_LONG).show();
+            EditHikeDialogFragment.this.getDialog().cancel();
+            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+            navController.navigate(R.id.nav_list_hike);
+        });
 
         fillHikeDataToLayout();
         builder.setView(dialogView)
@@ -73,8 +114,7 @@ public class EditHikeDialogFragment extends DialogFragment {
             nameEditText.setText(currentHike.getName());
             locationEditText.setText(currentHike.getLocation());
             lengthOfHikeEditText.setText(String.valueOf(currentHike.getLengthOfHike()));
-//            estimatedDurationEditText.setText(currentHike.getEstimatedDuration());
-//            peakElevationEditText.setText(String.valueOf(currentHike.getPeakElevation()));
+
             descriptionEditText.setText(currentHike.getDescription());
             dateEditText.setText(currentHike.getDate());
 
@@ -83,11 +123,18 @@ public class EditHikeDialogFragment extends DialogFragment {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             difficultyLevelSpinner.setAdapter(adapter);
 
-
             if (currentHike.getDifficultyLevel() != null) {
                 int spinnerPosition = adapter.getPosition(currentHike.getDifficultyLevel());
                 difficultyLevelSpinner.setSelection(spinnerPosition);
             }
+            if (currentHike.getParkingAvailability()) {
+                parkingRadioGroup.check(R.id.parkingAvailableRadioButton);
+            } else {
+                parkingRadioGroup.check(R.id.parkingNotAvailableRadioButton);
+            }
+
+            estimatedDurationEditText.setText(String.valueOf(currentHike.getDuration()));
+            peakElevationEditText.setText(String.valueOf(String.valueOf(currentHike.getPeak())));
         }
     }
 

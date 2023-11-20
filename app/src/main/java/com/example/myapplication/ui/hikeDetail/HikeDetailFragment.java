@@ -60,9 +60,11 @@ public class HikeDetailFragment extends Fragment {
                 binding.textHikeLocation.setText(hike.getLocation());
                 binding.textHikeDate.setText(hike.getDate());
                 binding.textHikeParking.setText(hike.getParkingAvailability() ? getString(R.string.parking_available) : getString(R.string.parking_not_available));
-                binding.textHikeLength.setText(String.valueOf(hike.getLengthOfHike()));
+                binding.textHikeLength.setText(String.valueOf(hike.getLengthOfHike())+"km");
                 binding.textHikeDifficulty.setText(hike.getDifficultyLevel());
-                binding.textHikeDescription.setText(hike.getDescription());
+                binding.textHikePeak.setText(String.valueOf(hike.getPeak()));
+                binding.textHikeDuration.setText(hike.getDuration() + "h");
+                binding.textHikeDescription.setText(hike.getDescription()+"");
             }
         } else {
 

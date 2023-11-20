@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class HikeDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "hikes.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
 
     // Hike Table
     public static final String TABLE_HIKES = "hikes";
@@ -17,17 +17,19 @@ public class HikeDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PARKING_AVAILABILITY = "parking_availability";
     public static final String COLUMN_LENGTH_OF_HIKE = "length_of_hike";
     public static final String COLUMN_DIFFICULTY_LEVEL = "difficulty_level";
+    public static final String COLUMN_PEAK_OF_HIKE = "peak";
+    public static final String COLUMN_DURATION = "duration";
     public static final String COLUMN_DESCRIPTION = "description";
 
 
-    private static final String DATABASE_CREATE_HIKE = "create table "
-            + TABLE_HIKES + "("
-            + COLUMN_ID + " integer primary key autoincrement, "
+    private static final String DATABASE_CREATE_HIKE = "create table " + TABLE_HIKES + "(" + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_NAME + " text not null, "
             + COLUMN_LOCATION + " text not null, "
             + COLUMN_DATE + " text not null, "
             + COLUMN_PARKING_AVAILABILITY + " integer not null, "
             + COLUMN_LENGTH_OF_HIKE + " integer not null, "
+            + COLUMN_PEAK_OF_HIKE + " integer not null, "
+            + COLUMN_DURATION + " integer not null, "
             + COLUMN_DIFFICULTY_LEVEL + " text not null, "
             + COLUMN_DESCRIPTION + " text);";
 
@@ -39,13 +41,7 @@ public class HikeDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TIME = "time";
     public static final String COLUMN_HIKE_ID = "hikeId";
 
-    private static final String DATABASE_CREATE_OBSERVATIONS = "create table "
-            + TABLE_OBSERVATIONS + "("
-            + COLUMN_OBSERVATION_ID + " integer primary key autoincrement, "
-            + COLUMN_OBSERVATION_NAME + " text not null, "
-            + COLUMN_COMMENT + " text, "
-            + COLUMN_TIME + " text not null, "
-            + COLUMN_HIKE_ID + " integer not null);";
+    private static final String DATABASE_CREATE_OBSERVATIONS = "create table " + TABLE_OBSERVATIONS + "(" + COLUMN_OBSERVATION_ID + " integer primary key autoincrement, " + COLUMN_OBSERVATION_NAME + " text not null, " + COLUMN_COMMENT + " text, " + COLUMN_TIME + " text not null, " + COLUMN_HIKE_ID + " integer not null);";
 
     public HikeDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -59,9 +55,6 @@ public class HikeDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 2) {
-            db.execSQL(DATABASE_CREATE_OBSERVATIONS);
-        }
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HIKES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_OBSERVATIONS);
         onCreate(db);

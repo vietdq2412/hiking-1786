@@ -16,7 +16,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="569dp"
+            android:layout_height="657dp"
             android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/hikeDifficultyLabel"
             app:layout_constraintTop_toBottomOf="@+id/hikeDifficultyLabel">
@@ -102,6 +102,40 @@
                 app:layout_constraintTop_toTopOf="@id/hikeDifficultyLabel" />
 
             <TextView
+                android:id="@+id/hikePeakLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Peak:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textHikeDifficulty" />
+
+            <TextView
+                android:id="@+id/textHikePeak"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="peak"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hikePeakLabel"
+                app:layout_constraintTop_toTopOf="@id/hikePeakLabel" />
+
+            <TextView
+                android:id="@+id/hikeDurationLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Duration:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textHikePeak" />
+
+            <TextView
+                android:id="@+id/textHikeDuration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Duration"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hikeDurationLabel"
+                app:layout_constraintTop_toTopOf="@id/hikeDurationLabel" />
+
+            <TextView
                 android:id="@+id/textHikeDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -110,7 +144,7 @@
                 android:text="description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textHikeDifficulty" />
+                app:layout_constraintTop_toBottomOf="@id/hikeDurationLabel" />
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
@@ -135,11 +169,12 @@
                 android:layout_width="212dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
                 android:text="Add observation"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                app:layout_constraintVertical_bias="0.157" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <Button
                 android:id="@+id/deleteButton"
@@ -153,7 +188,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                app:layout_constraintVertical_bias="0.157" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <Button
                 android:id="@+id/editButton"
@@ -167,7 +202,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/deleteButton"
-                app:layout_constraintVertical_bias="0.157" />
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

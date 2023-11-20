@@ -29,6 +29,8 @@ public class HikeDAO {
     public final String COLUMN_PARKING_AVAILABILITY = "parking_availability";
     public final String COLUMN_LENGTH_OF_HIKE = "length_of_hike";
     public final String COLUMN_DIFFICULTY_LEVEL = "difficulty_level";
+    public final String COLUMN_PEAK_OF_HIKE = "peak";
+    public final String COLUMN_DURATION = "duration";
     public final String COLUMN_DESCRIPTION = "description";
 
     private HikeDAO(Context context) {
@@ -46,34 +48,44 @@ public class HikeDAO {
     public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
     }
+
     public long addHike(Hike hike) {
         open();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, hike.getName());
         values.put(COLUMN_LOCATION, hike.getLocation());
         values.put(COLUMN_DATE, hike.getDate());
-        values.put(COLUMN_PARKING_AVAILABILITY, hike.isParkingAvailability() ? 1 : 0); // Convert boolean to integer
+        values.put(COLUMN_PARKING_AVAILABILITY, hike.isParkingAvailability() ? 1 : 0);
         values.put(COLUMN_LENGTH_OF_HIKE, hike.getLengthOfHike());
         values.put(COLUMN_DIFFICULTY_LEVEL, hike.getDifficultyLevel());
+        values.put(COLUMN_PEAK_OF_HIKE, hike.getPeak());
+        values.put(COLUMN_DURATION, hike.getDuration());
         values.put(COLUMN_DESCRIPTION, hike.getDescription());
 
         long insertId = database.insert(TABLE_HIKES, null, values);
-        dbHelper.close();
         return insertId;
     }
 
     public void updateHike(Hike hike) {
         ContentValues values = new ContentValues();
+        System.out.println("================================================");
+        System.out.println(hike);
         open();
-        values.put(HikeDatabaseHelper.COLUMN_NAME, hike.getName());
-        dbHelper.close();
+        values.put(COLUMN_NAME, hike.getName());
+        values.put(COLUMN_LOCATION, hike.getLocation());
+        values.put(COLUMN_DATE, hike.getDate());
+        values.put(COLUMN_PARKING_AVAILABILITY, hike.isParkingAvailability() ? 1 : 0);
+        values.put(COLUMN_LENGTH_OF_HIKE, hike.getLengthOfHike());
+        values.put(COLUMN_DIFFICULTY_LEVEL, hike.getDifficultyLevel());
+        values.put(COLUMN_PEAK_OF_HIKE, hike.getPeak());
+        values.put(COLUMN_DURATION, hike.getDuration());
+        values.put(COLUMN_DESCRIPTION, hike.getDescription());
         database.update(HikeDatabaseHelper.TABLE_HIKES, values, HikeDatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(hike.getId())});
     }
 
     public void deleteHike(long hikeId) {
         open();
         database.delete(HikeDatabaseHelper.TABLE_HIKES, HikeDatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(hikeId)});
-        dbHelper.close();
     }
 
     @SuppressLint("Range")
@@ -95,6 +107,8 @@ public class HikeDAO {
                 hike.setParkingAvailability(parkingAvaibility);
                 hike.setLengthOfHike(Integer.parseInt(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_LENGTH_OF_HIKE))));
                 hike.setDifficultyLevel(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_DIFFICULTY_LEVEL)));
+                hike.setPeak(cursor.getInt(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_PEAK_OF_HIKE)));
+                hike.setDuration(cursor.getInt(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_DURATION)));
                 hike.setDescription(cursor.getString(cursor.getColumnIndex(HikeDatabaseHelper.COLUMN_DESCRIPTION)));
 
                 hikes.add(hike);
@@ -112,7 +126,7 @@ public class HikeDAO {
 
         try {
             String selection = "_id = ?";
-            String[] selectionArgs = { String.valueOf(id) };
+            String[] selectionArgs = {String.valueOf(id)};
 
             cursor = database.query(TABLE_HIKES, null, selection, selectionArgs, null, null, null);
 
@@ -123,6 +137,8 @@ public class HikeDAO {
                         cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_DATE)),
                         cursor.getInt(cursor.getColumnIndex(COLUMN_PARKING_AVAILABILITY)) > 0,
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_PEAK_OF_HIKE)),
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_DURATION)),
                         cursor.getInt(cursor.getColumnIndex(COLUMN_LENGTH_OF_HIKE)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_DIFFICULTY_LEVEL)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION))

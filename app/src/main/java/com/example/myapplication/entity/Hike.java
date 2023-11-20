@@ -13,8 +13,10 @@ public class Hike implements Parcelable {
     private String date;
     private boolean parkingAvailability;
     private int lengthOfHike;
+    private int peak;
+    private int duration;
     private String description;
-    private String difficultyLevel;      // "Easy", "Moderate", "Hard"
+    private String difficultyLevel;
 
     public Hike() {
     }
@@ -23,12 +25,14 @@ public class Hike implements Parcelable {
         this.name = name;
     }
 
-    public Hike(long id, String name, String location, String date, boolean parkingAvailability, int lengthOfHike, String difficultyLevel, String description) {
+    public Hike(long id, String name, String location, String date, boolean parkingAvailability, int peak, int duration, int lengthOfHike, String difficultyLevel, String description) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.date = date;
         this.parkingAvailability = parkingAvailability;
+        this.peak = peak;
+        this.duration = duration;
         this.lengthOfHike = lengthOfHike;
         this.description = description;
         this.difficultyLevel = difficultyLevel;
@@ -102,6 +106,22 @@ public class Hike implements Parcelable {
         this.description = description;
     }
 
+    public int getPeak() {
+        return peak;
+    }
+
+    public void setPeak(int peak) {
+        this.peak = peak;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     @Override
     public String toString() {
         return "Hike{" +
@@ -111,7 +131,9 @@ public class Hike implements Parcelable {
                 ", date='" + date + '\'' +
                 ", parkingAvailability=" + parkingAvailability +
                 ", lengthOfHike=" + lengthOfHike +
-                ", description ='" + description + '\'' +
+                ", peak=" + peak +
+                ", duration=" + duration +
+                ", description='" + description + '\'' +
                 ", difficultyLevel='" + difficultyLevel + '\'' +
                 '}';
     }

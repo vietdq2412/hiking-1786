@@ -69,7 +69,6 @@
                 android:id="@+id/parkingNotAvailableRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
                 android:text="False" />
         </RadioGroup>
 
@@ -87,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:hint="Estimated Duration"
+            android:hint="Duration"
             android:minHeight="48dp" />
 
         <EditText
@@ -125,15 +124,7 @@
             android:minHeight="48dp" />
 
         <Button
-            android:id="@+id/clearButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="80dp"
-            android:text="Clear All"
-            app:cornerRadius="16dp" />
-
-        <Button
-            android:id="@+id/submitButton"
+            android:id="@+id/updateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="80dp"

@@ -35,16 +35,14 @@ public class CreateHikeFragment extends Fragment {
     private HikeDAO hikeDAO;
 
     private FragmentCreateHikeBinding binding;
-    private EditText nameEditText, locationEditText, descriptionEditText, estimatedDurationEditText,
-            peakElevationEditText, dateEditText, lengthOfHikeEditText;
+    private EditText nameEditText, locationEditText, descriptionEditText, estimatedDurationEditText, peakElevationEditText, dateEditText, lengthOfHikeEditText;
     private RadioGroup parkingRadioGroup;
     private Spinner difficultyLevelSpinner;
     private Button submitButton, clearButton;
 
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         hikeDAO = HikeDAO.getInstance(getContext());
 
         binding = FragmentCreateHikeBinding.inflate(inflater, container, false);
@@ -72,9 +70,7 @@ public class CreateHikeFragment extends Fragment {
                 dateEditText.setText(selectedDate);
             };
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    getContext(),
-                    dateSetListener, year, month, day);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), dateSetListener, year, month, day);
             datePickerDialog.show();
         });
 
@@ -119,16 +115,17 @@ public class CreateHikeFragment extends Fragment {
                     isParkingAvalable = false;
                 }
 
+                hike.setPeak(Integer.parseInt(peakElevationEditText.getText().toString()));
+                hike.setDuration(Integer.parseInt(estimatedDurationEditText.getText().toString()));
                 hike.setParkingAvailability(isParkingAvalable);
                 hike.setLengthOfHike(Integer.parseInt(lengthOfHikeEditText.getText().toString()));
                 hike.setDifficultyLevel(difficultyLevelSpinner.getSelectedItem().toString());
+                hike.setPeak(Integer.parseInt(peakElevationEditText.getText().toString()));
+                hike.setDuration(Integer.parseInt(estimatedDurationEditText.getText().toString()));
                 hike.setDescription(descriptionEditText.getText().toString());
-
-                Log.d(TAG, hike.toString());
 
                 hikeDAO.addHike(hike);
 
-                System.out.println("133 create hike :" + hikeDAO.hikes.size());
                 Toast.makeText(getContext(), "Done!", Toast.LENGTH_LONG).show();
 
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
@@ -138,15 +135,7 @@ public class CreateHikeFragment extends Fragment {
     }
 
     private boolean areRequiredFieldsFilled() {
-        if (TextUtils.isEmpty(nameEditText.getText())
-                || TextUtils.isEmpty(locationEditText.getText())
-                || TextUtils.isEmpty(estimatedDurationEditText.getText())
-                || TextUtils.isEmpty(peakElevationEditText.getText())
-                || TextUtils.isEmpty(locationEditText.getText())
-                || TextUtils.isEmpty(dateEditText.getText())
-                || TextUtils.isEmpty(lengthOfHikeEditText.getText())
-                || difficultyLevelSpinner.getSelectedItem() == null
-        ) {
+        if (TextUtils.isEmpty(nameEditText.getText()) || TextUtils.isEmpty(locationEditText.getText()) || TextUtils.isEmpty(estimatedDurationEditText.getText()) || TextUtils.isEmpty(peakElevationEditText.getText()) || TextUtils.isEmpty(locationEditText.getText()) || TextUtils.isEmpty(dateEditText.getText()) || TextUtils.isEmpty(lengthOfHikeEditText.getText()) || difficultyLevelSpinner.getSelectedItem() == null) {
             Toast.makeText(getContext(), "Please fill in all required fields", Toast.LENGTH_SHORT).show();
             return false;
         }
